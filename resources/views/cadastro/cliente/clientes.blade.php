@@ -1,27 +1,38 @@
 @extends('template')
 @section('conteudo')
 <section class="container-fluid">
- <div class="row bg-light text-dark ">
-  <div class="col p-1">
+ <div class="row bg-light text-dark p-2 ">
+  <div class="col-3 ">
     <h5>Clientes</h5>
   </div>
-  <div class="col">
+  <div class="col-9">
     <ul class="nav justify-content-end">
       <li class="nav-item">
-        <a class="nav-link text-dark" href="#">Pesquisar</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-dark" href="#" data-toggle="modal" data-target="#cadastro">
-        Cadastrar</a>
-      </li>
+       <div class="input-group">
+        <input type="text" class="form-control" placeholder="Pesquisar Cliente" >
+        <div class="input-group-append">
+          <button class="btn btn-secondary" type="button" id="button-addon2">Buscar</button>
+        </div>
+      </div>
+    </li>
 
-    </ul>
-  </div>
+  </ul>
+</div>
 </div>
 </section>
 <section class="container bg-light">
   <div class="mt-2 p-3">
-    <h6>Lista do Clientes</h6>
+    <div class="row p-2">
+        <div class="col">
+          <h5>Lista de Clientes</h5>
+        </div>
+         <div class="col text-right">
+          <button class="btn btn-dark" href="#" data-toggle="modal" data-target="#cadastro">
+      Cadastrar</button> 
+        </div>
+    </div>   
+      
+     
     @if(count($clientes) == 0)
     <div class="alert alert-info">
       Não há cliente cadastrado
@@ -65,7 +76,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Título do modal</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Cadastro Cliente</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -75,7 +86,9 @@
           Os campos marcados com * são de preenchimento obrigatório
         </div>
         <form method="GET" action="{{route('cadastros.novocliente')}}" id="form-cad">
+         <h5>Infomações pessoais/empresariais</h5><hr>
          <div class="form-row">
+
           <div class="form-group col-md-6">
             <label>* Tipo de cliente</label>
             <select id="tipo" class="form-control" name="tipo" required="">
@@ -120,7 +133,7 @@
             <label >Inscrição Municipal</label>
             <input  type="text" name="ins_municipal" class="form-control" >
           </div>
-       
+
           <div class="form-group col-md-6">
             <label >E-mail</label>
             <input type="text" name="email" class="form-control" >
@@ -133,7 +146,12 @@
             <label >Telefone 2</label>
             <input id="fone2" type="text" name="fone2" data-id="#fone2" class="form-control" >
           </div>
-         
+          
+        </div>
+        <h5>Endereço</h5> <hr>
+        <h5>Informações/observações</h5> <hr>
+        <div id="" class="form-group ">
+          <textarea id="info" class="form-control"></textarea>
         </div>
         <button class="btn btn-primary btn-block" >Salvar</button>
       </form>
@@ -145,43 +163,48 @@
   </div>
 </div>
 </div>
+
 <script type="text/javascript">
 
   $(document).ready(function () {
-$("input").on("keypress", function(){
-var c = $(this).data('id');
-var valor = $(c).val();
-if( valor.length == 1){  $(this).val('(' + valor) }
-if( valor.length == 3){  $(this).val( valor + ') ') }
-if( valor.length == 10){  $(this).val( valor + '- ') }
 
 
- });
+    $("input").on("keypress", function(){
+      var c = $(this).data('id');
+      var valor = $(c).val();
+      if( valor.length == 1){  $(this).val('(' + valor) }
+        if( valor.length == 3){  $(this).val( valor + ') ') }
+          if( valor.length == 10){  $(this).val( valor + '- ') }
+
+
+        });
 
     $("#ins_e").hide();
     $("#ins_m").hide();
 
-   $("#tipo").on("change", function(){
-    var tipo = $(this).val();   
-    
-    if (tipo == "PJ") {
-      $("#nf_apelido").text("* Nome Fantasia");
-      $("#rs_nome").text("* Razão Social");
-      $("#cpf_cnpj").text("CNPJ");
-      $("#rg").hide();
-      $("#ins_e").show();
-      $("#ins_m").show();
-    } else {
-     $("#nf_apelido").text("* Apelido");
-     $("#rs_nome").text("* Nome");
-     $("#cpf_cnpj").text("CPF");
-     $("#rg").show();
-      $("#ins_e").hide();
-        $("#ins_m").hide();
-   }
+    $("#tipo").on("change", function(){
+      var tipo = $(this).val();   
 
- });
+      if (tipo == "PJ") {
+        $("#nf_apelido").text("* Nome Fantasia");
+        $("#rs_nome").text("* Razão Social");
+        $("#cpf_cnpj").text("CNPJ");
+        $("#rg").hide();
+        $("#ins_e").show();
+        $("#ins_m").show();
+      } else {
+       $("#nf_apelido").text("* Apelido");
+       $("#rs_nome").text("* Nome");
+       $("#cpf_cnpj").text("CPF");
+       $("#rg").show();
+       $("#ins_e").hide();
+       $("#ins_m").hide();
+     }
 
- });
+   });
+
+  });
 </script>
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
 @stop

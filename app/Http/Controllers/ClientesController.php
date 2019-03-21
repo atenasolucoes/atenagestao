@@ -10,7 +10,7 @@ class ClientesController extends Controller
     public function index()
     {
     	$clientes = Clientes::all();
-    	return view('cadastro.clientes')->with(compact('clientes'));
+    	return view('cadastro.cliente.clientes')->with(compact('clientes'));
     }
 
     public function cadastrar(Request $request)

@@ -11,13 +11,15 @@
 |
 */
 Route::prefix('/')->group(function(){
-	Route::get('',function(){
+	Route::view('','login');
+	Route::get('index',function(){
 		return view('template');
 	})->name('index');
 });
 
 
 Route::prefix('cadastros')->group(function(){
+	Route::redirect('/', '/', 301);
 	Route::prefix('clientes')->group(function(){
 		Route::name('cadastros.')->group(function () {
 			Route::get('/','ClientesController@index')->name('clientes');

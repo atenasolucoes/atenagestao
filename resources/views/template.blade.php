@@ -49,13 +49,15 @@
             </li> 
         </ul>
     </div> 
-    <span class="navbar-text">
-   Herbet Junior
+    <span class="navbar-text " >
+   <b>Usuário: </b>Herbet Junior   
   </span>
-
 </nav>
 </header>
+
+</div>
 @yield('conteudo')
+
 
 
 </body>
