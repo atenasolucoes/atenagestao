@@ -12,4 +12,17 @@ class ClientesController extends Controller
     	$clientes = Clientes::all();
     	return view('cadastro.clientes')->with(compact('clientes'));
     }
+
+    public function cadastrar(Request $request)
+    {
+    	Clientes::create($request->all());
+    	return redirect(route('cadastros.clientes'));
+    }
+
+    public function excluir($id)
+    {
+    	$delete = Clientes::find($id);
+    	$delete ->delete();
+    	return redirect(route('cadastros.clientes'));
+    }
 }

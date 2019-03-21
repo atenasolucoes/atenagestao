@@ -10,21 +10,21 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-	return view('welcome');
-});
-
-Route::prefix('index')->group(function(){
-	Route::get('/',function(){
+Route::prefix('/')->group(function(){
+	Route::get('',function(){
 		return view('template');
-	});
+	})->name('index');
 });
 
 
 Route::prefix('cadastros')->group(function(){
-	Route::name('cadastros.')->group(function () {
-		Route::get('clientes','ClientesController@index')->name('clientes');
+	Route::prefix('clientes')->group(function(){
+		Route::name('cadastros.')->group(function () {
+			Route::get('/','ClientesController@index')->name('clientes');
+			Route::get('novo','ClientesController@cadastrar')->name('novocliente');
+			Route::get('{id}','ClientesController@excluir')->name('excluircliente');
+
+		});
 	});
 });
 

@@ -1,0 +1,6 @@
+body{
+	background-image: url(../imagens/fundo.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: top center;
+}

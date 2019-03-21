@@ -4,7 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control"   content="no-cache" />
+    <meta http-equiv="pragma" content="no-cache" />
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/estilo.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/jquery.min.js"></script>
@@ -19,7 +24,7 @@
     <header>
         <nav class="navbar navbar-expand-md bg-dark navbar-dark ">
           <!-- Brand -->
-          <a class="navbar-brand" href="/index">Gestão</a>
+          <a class="navbar-brand" href="{{route('index')}}">Gestão</a>
 
           <!-- Toggler/collapsibe Button -->
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
