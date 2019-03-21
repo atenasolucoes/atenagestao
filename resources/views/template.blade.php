@@ -35,7 +35,7 @@
         <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar" >
             <ul class="navbar-nav ">
               <li class="nav-item dropdown">
-                <a class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cadastro</a>
+                <a class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cadastros</a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" href="{{route('cadastros.clientes')}}">Clientes</a>
                     <a class="dropdown-item" href="#">Serviços</a>

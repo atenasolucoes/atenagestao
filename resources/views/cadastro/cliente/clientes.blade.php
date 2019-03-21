@@ -2,8 +2,8 @@
 @section('conteudo')
 <section class="container-fluid">
  <div class="row bg-light text-dark p-2 ">
-  <div class="col-3 ">
-    <h5>Clientes</h5>
+  <div class="col-3">
+    <h5>Lista de Clientes</h5>
   </div>
   <div class="col-9">
     <ul class="nav justify-content-end">
@@ -23,16 +23,14 @@
 <section class="container bg-light">
   <div class="mt-2 p-3">
     <div class="row p-2">
-        <div class="col">
-          <h5>Lista de Clientes</h5>
-        </div>
-         <div class="col text-right">
-          <button class="btn btn-dark" href="#" data-toggle="modal" data-target="#cadastro">
-      Cadastrar</button> 
-        </div>
-    </div>   
       
-     
+      <div class="col text-right">
+        <button class="btn btn-dark" href="#" data-toggle="modal" data-target="#cadastro">
+        Cadastrar</button> 
+      </div>
+    </div>   
+
+
     @if(count($clientes) == 0)
     <div class="alert alert-info">
       Não há cliente cadastrado
@@ -45,6 +43,8 @@
           <th scope="col">Nome</th>
           <th scope="col">Tipo</th>
           <th scope="col">Situação</th>
+          <th scope="col">Telefone 1</th>
+          <th scope="col">Email</th>
           <th scope="col">Cadastrado em</th>
           <th scope="col">Ações</th>
         </tr>
@@ -56,9 +56,11 @@
           <td>{{$cliente->rs_nome}}</td>
           <td>{{($cliente->tipo == 'PF') ? 'Pessoa Física' : 'Pessoa Jurídica'}}</td>
           <td>{{$cliente->situacao}}</td>
+          <td>{{$cliente->fone1}}</td>
+          <td>{{$cliente->email}}</td>
           <td>{{date('d/m/Y H:m:s',strtotime($cliente->created_at))}}</td>
           <td>
-            <i class="material-icons  btn-info rounded">search</i>
+            <a href="{{route('cadastros.ficha',$cliente->id)}}"><i class="material-icons  btn-info rounded">search</i></a>
             <i class="material-icons  btn-secondary rounded">edit</i>
             <a href="{{route('cadastros.excluircliente',$cliente->id)}}"><i class="material-icons  btn-danger rounded">clear</i></a>
           </td>
@@ -149,9 +151,45 @@
           
         </div>
         <h5>Endereço</h5> <hr>
+        <h6>Principal</h6>
+        <div class="form-row">
+
+          <div class="form-group col-md-3">
+            <label>Tipo</label>
+            <select id="tipo_end" class="form-control" name="tipo_end" required="">
+              <option value="">Selecione</option>
+              <option value="residencial">Residencial</option>
+              <option value="comercial">Comercial</option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label>CEP</label>
+            <input id="cep" type="text" name="cep"  class="form-control" >
+          </div>
+          <div class="form-group col-md-4">
+            <label>Rua</label>
+            <input id="rua" type="text" name="rua"  class="form-control" >
+          </div>
+          <div class="form-group col-md-2">
+            <label>N°</label>
+            <input id="numero" type="text" name="numero"  class="form-control" >
+          </div>
+          <div class="form-group col-md-3">
+            <label>Bairro</label>
+            <input id="bairro" type="text" name="bairro"  class="form-control" >
+          </div>
+          <div class="form-group col-md-4">
+            <label>Cidade</label>
+            <input id="cidade" type="text" name="cidade"  class="form-control" >
+          </div>
+          <div class="form-group col-md-2">
+            <label>UF</label>
+            <input id="uf" type="text" name="uf"  class="form-control" >
+          </div>
+        </div>
         <h5>Informações/observações</h5> <hr>
         <div id="" class="form-group ">
-          <textarea id="info" class="form-control"></textarea>
+          <textarea id="info" class="form-control" name="info"></textarea>
         </div>
         <button class="btn btn-primary btn-block" >Salvar</button>
       </form>
@@ -163,21 +201,33 @@
   </div>
 </div>
 </div>
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.js"></script>
+<script>
+  $('#info').summernote({
+    placeholder: 'Informações complementadores do cliente aqui',
+    tabsize: 2,
+    height: 100
+  });
+</script>
 <script type="text/javascript">
 
   $(document).ready(function () {
-
+    $("#cep").on("keypress", function(){
+      var cepvalor = $(this).val();
+      if( cepvalor.length == 5){  $(this).val(cepvalor + '-') }
+    });
 
     $("input").on("keypress", function(){
       var c = $(this).data('id');
       var valor = $(c).val();
+
       if( valor.length == 1){  $(this).val('(' + valor) }
         if( valor.length == 3){  $(this).val( valor + ') ') }
-          if( valor.length == 10){  $(this).val( valor + '- ') }
+         if( valor.length == 10){  $(this).val( valor + '- ') }
+           
 
-
-        });
+       });
 
     $("#ins_e").hide();
     $("#ins_m").hide();
@@ -205,6 +255,69 @@
 
   });
 </script>
-<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
-@stop
+
+<script type="text/javascript" >
+
+  $(document).ready(function() {
+
+    function limpa_formulário_cep() {
+                // Limpa valores do formulário de cep.
+                $("#rua").val("");
+                $("#bairro").val("");
+                $("#cidade").val("");
+                $("#uf").val("");
+              }
+              
+            //Quando o campo cep perde o foco.
+            $("#cep").blur(function() {
+
+                //Nova variável "cep" somente com dígitos.
+                var cep = $(this).val().replace(/\D/g, '');
+
+                //Verifica se campo cep possui valor informado.
+                if (cep != "") {
+
+                    //Expressão regular para validar o CEP.
+                    var validacep = /^[0-9]{8}$/;
+
+                    //Valida o formato do CEP.
+                    if(validacep.test(cep)) {
+
+                        //Preenche os campos com "..." enquanto consulta webservice.
+                        $("#rua").val("...");
+                        $("#bairro").val("...");
+                        $("#cidade").val("...");
+                        $("#uf").val("...");
+
+                        //Consulta o webservice viacep.com.br/
+                        $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
+
+                          if (!("erro" in dados)) {
+                                //Atualiza os campos com os valores da consulta.
+                                $("#rua").val(dados.logradouro);
+                                $("#bairro").val(dados.bairro);
+                                $("#cidade").val(dados.localidade);
+                                $("#uf").val(dados.uf);
+                            } //end if.
+                            else {
+                                //CEP pesquisado não foi encontrado.
+                                limpa_formulário_cep();
+                                alert("CEP não encontrado.");
+                              }
+                            });
+                    } //end if.
+                    else {
+                        //cep é inválido.
+                        limpa_formulário_cep();
+                        alert("Formato de CEP inválido.");
+                      }
+                } //end if.
+                else {
+                    //cep sem valor, limpa formulário.
+                    limpa_formulário_cep();
+                  }
+                });
+          });
+
+        </script>
+        @stop

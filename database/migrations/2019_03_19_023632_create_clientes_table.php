@@ -26,6 +26,14 @@ class CreateClientesTable extends Migration
             $table->string('email')->nullable();
             $table->string('ins_estadual')->nullable();
             $table->string('ins_municipal')->nullable();
+            $table->string('tipo_end')->nullable();
+            $table->string('cep')->nullable();
+            $table->string('numero')->nullable();
+            $table->string('rua')->nullable();
+             $table->string('bairro')->nullable();
+            $table->string('cidade')->nullable();
+            $table->string('uf')->nullable();
+            $table->longtext('info')->nullable();
             $table->timestamps();
         });
     }

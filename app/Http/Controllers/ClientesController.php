@@ -19,6 +19,12 @@ class ClientesController extends Controller
     	return redirect(route('cadastros.clientes'));
     }
 
+      public function ficha($id)
+    {
+        $cliente = Clientes::find($id);
+        return view('cadastro.cliente.fichacliente')->with(compact('cliente'));
+    }
+
     public function excluir($id)
     {
     	$delete = Clientes::find($id);
