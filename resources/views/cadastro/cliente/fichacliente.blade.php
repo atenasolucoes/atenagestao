@@ -4,19 +4,11 @@
  <div class="row bg-light text-dark p-2 ">
   <div class="col-3">
    <a class="btn btn-secondary" href="{{route('cadastros.clientes')}}">Voltar</a>
-  </div>
-  <div class="col-9">
-    <ul class="nav justify-content-end">
-      <li class="nav-item">
-       <div class="input-group">
-        <input type="text" class="form-control" placeholder="Pesquisar Cliente" >
-        <div class="input-group-append">
-          <button class="btn btn-secondary" type="button" id="button-addon2">Buscar</button>
-        </div>
-      </div>
-    </li>
+ </div>
+ <div class="col-9">
+  
 
-  </ul>
+</ul>
 </div>
 </div>
 </section>
@@ -24,21 +16,63 @@
   <div class="mt-2 p-3">
     <div class="row p-2">
       <div class="col">
-        <h5>{{$cliente->rs_nome}}</h5>
+        <h5>{{$cliente->rs_nome}}
+          @if(empty($_GET['editar']))
+          <a href="{{route('cadastros.ficha',$cliente->id).'?editar='.$cliente->id}}"><i class="material-icons  btn-secondary rounded">edit</i></a>
+          @elseif(!empty($_GET['editar']))
+          <a href="{{route('cadastros.ficha',$cliente->id)}}"><i class="material-icons  btn-info rounded">search</i></a>
+          @endif
+        </h5>
+        <h6>({{$cliente->nf_apelido}})</h6>
+      </div>
+      <div class="col text-right">
+        Atualizado em : {{date('d/m/Y H:i:s',strtotime($cliente->updated_at))}}
       </div>
     </div> 
   </div>
   <div>
     <div class="row p-2">
-      <div class="col">
-        <p><b>Tipo: </b> {{$cliente->tipo}}</p>
-        <p><b>Situação: </b> {{$cliente->situacao}}</p>
-      </div>
+      @if(empty($_GET['editar']))
+      <div class="col-md-6">
+        <h6>Dados Gerais</h6><hr>
+        <p><b>CPF/CNPJ: </b>{{($cliente->cpf_cnpj != '') ? $cliente->cpf_cnpj : '--------'}}</p>
+        @if($cliente->tipo == 'PF')<p><b>RG: </b> {{($cliente->rg != '')? $cliente->rg : '--------'}}</p>@endif
+        <p><b>Email: </b>{{($cliente->email != '') ? $cliente->email : '--------'}}</p>
+        <p><b>Telefone: </b> {{($cliente->fone1 != '') ? $cliente->fone1 : '--------'}}
+         {{($cliente->fone2 != '')? ' | '.$cliente->fone2 : ''}}
+       </p>
+       @if($cliente->tipo == 'PJ')
+       <p><b>Inscrição Estadual: </b> {{($cliente->ins_estadual != '')? $cliente->ins_estadual : '--------'}}</p>
+       <p><b>Inscrição Municipal: </b> {{($cliente->ins_municipal != '')? $cliente->ins_municipal : '--------'}}</p>
+       @endif
 
-    </div>
-  </div>
 
-  
+     </div>
+     <div class="col-md-6">
+       <h6>Endereço</h6><hr>
+       <p><b>Tipo: </b> {{$cliente->tipo_end}}</p>
+       <p><b>CEP: </b> {{$cliente->cep}}</p>
+       <p><b>Rua: </b> {{$cliente->rua}}</p>
+       <p><b>Numero: </b> {{$cliente->numero}}</p>
+       <p><b>Bairro: </b> {{$cliente->bairro}}</p>
+       <p><b>Cidade: </b> {{$cliente->cidade.'/'.$cliente->uf}}</p>
+     </div>
+     <div class="col-md-12">
+       <h6>Informações/Observações</h6><hr>
+       <?php echo $cliente->info; ?>
+
+     </div>
+     <div class="col-md-12">
+        <a class="btn btn-danger btn-block mt-5" href="{{route('cadastros.excluircliente',$cliente->id)}}"  onclick = "if (!confirm('Deseja continuar esta ação?')) return false;"> Excluir ficha de cliente</a>
+     </div>
+     @elseif(!empty($_GET['editar']) == $cliente->id)
+   @include('cadastro.cliente.editar_cliente')
+   @endif
+   </div>
+   
+ </div>
+
+
 </section>
 
 

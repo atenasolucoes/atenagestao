@@ -1,177 +1,64 @@
-@extends('template')
-@section('conteudo')
-<section class="container-fluid">
- <div class="row bg-light text-dark p-2 ">
-  <div class="col-3">
-    <h5>Lista de Clientes {{($pre == 'pre-cadastro') ? '| Pré-Cadastro': ''}}</h5>
 
-   
-  </div>
-  <div class="col-9">
-    <ul class="nav justify-content-end">
-      <li class="nav-item">
-        <form method="GET" action="{{route('cadastros.clientes', $pre)}}">
-       <div class="input-group">
-        <input type="text" class="form-control" name="busca" placeholder="Pesquisar Cliente" >
-        <div class="input-group-append">
-          <button class="btn btn-secondary" id="button-addon2">Buscar</button>
-        </div>
-      </div>
-    </form>
-    </li>
-
-  </ul>
-</div>
-</div>
-</section>
-<section class="container bg-light">
-  <div class="mt-2 p-3 ">
-    <div class="row p-2">
-      
-      <div class="col text-right">
-        <button class="btn btn-dark" href="#" data-toggle="modal" data-target="#cadastro">
-        Cadastrar</button> 
-      </div>
-    </div>   
-
-
-    @if(count($clientes) == 0)
-    <div class="alert alert-info">
-      Não há cliente cadastrado
-    </div>
-    @else
-    <div class="table-responsive">
-    <table class="table table-sm">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Tipo</th>
-          <th scope="col">Situação</th>
-          <th scope="col">Telefone 1</th>
-          <th scope="col">Email</th>
-          <th scope="col">Cadastrado em</th>
-          <th scope="col">Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach($clientes as $cliente)
-        <tr>
-          <th scope="row">{{$cliente->id}}</th>
-          <td>{{$cliente->rs_nome}}</td>
-          <td>{{($cliente->tipo == 'PF') ? 'Pessoa Física' : 'Pessoa Jurídica'}}</td>
-          <td>{{$cliente->situacao}}</td>
-          <td>{{$cliente->fone1}}</td>
-          <td>{{$cliente->email}}</td>
-          <td>{{date('d/m/Y H:m:s',strtotime($cliente->created_at))}}</td>
-          <td>
-            <a href="{{route('cadastros.ficha',$cliente->id)}}"><i class="material-icons  btn-info rounded">search</i></a>
-             <a href="{{route('cadastros.ficha',$cliente->id).'?editar='.$cliente->id}}"><i class="material-icons  btn-secondary rounded">edit</i></a>
-           
-          </td>
-        </tr>
-        @endforeach
-      </tbody>
-    </table></div>
-    @endif
- @if(count($clientes) != 0)
-    <nav>
-  <ul class="pagination justify-content-center ">
-    <li class="page-item  {{($clientes->currentPage() == 1) ? 'disabled' : ''}}">
-      <a class="page-link" href="{{$clientes->previousPageUrl($clientes->currentPage()-1)}}" tabindex="-1">Anterior</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">{{$clientes->currentPage()}}</a></li>
-    <li class="page-item"><a class="page-link" href="#">de</a></li>
-    <li class="page-item"><a class="page-link" href="#">{{$clientes->lastPage()}}</a></li>
-    <li class="page-item {{( $clientes->lastPage() ==  $clientes->currentPage() ) ? 'disabled' : ''}}">
-      <a class="page-link" href="{{$clientes->nextPageUrl($clientes->currentPage()+1)}}">Próximo</a>
-    </li>
-  </ul>
-</nav>
-@endif
-  </div>
-
-  
-</section>
-
-<div class="modal fade" id="cadastro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Cadastro Cliente</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="alert alert-warning">
-          Os campos marcados com * são de preenchimento obrigatório
-        </div>
-        <form method="POST" action="{{route('cadastros.novocliente')}}" id="form-cad">
-          {{@csrf_field()}}
+ <form method="GET" action="{{route('cadastros.editarficha', $cliente->id)}}" id="form-cad">
          <h5>Infomações pessoais/empresariais</h5><hr>
          <div class="form-row">
 
           <div class="form-group col-md-6">
             <label>* Tipo de cliente</label>
             <select id="tipo" class="form-control" name="tipo" required="">
-              <option value="">Selecione</option>
-              <option value="PF" selected="">Pessoa Fisíca (PF)</option>
+              <option value="{{$cliente->tipo}}">{{$cliente->tipo}}</option>
+              <option value="PF">Pessoa Fisíca (PF)</option>
               <option value="PJ">Pessoa Jurídica (PJ)</option>
             </select>
           </div>
           <div class="form-group col-md-6">
             <label> * Situação</label>
             <select class="form-control" name="situacao" required="">
-              @if($pre == 'pre-cadastro')
-               <option value="pre-cadastro">Pré-cadastro</option>
-               @else
-              <option value="">Selecione</option>
-              <option value="ativo" selected="">Ativo</option>
+              <option value="{{$cliente->situacao}}">{{$cliente->situacao}}</option>
+              <option value="ativo">Ativo</option>
               <option value="inativo">Inativo</option>
-              @endif
             </select>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label id="nf_apelido">* Apelido</label>
-            <input type="text" name="nf_apelido" class="form-control" required="">
+            <input type="text" name="nf_apelido" class="form-control" required="" value="{{$cliente->nf_apelido}}">
           </div>
           <div class="form-group col-md-6">
             <label id="rs_nome">* Nome</label>
-            <input type="text" name="rs_nome" class="form-control" required="">
+            <input type="text" name="rs_nome" class="form-control" required="" value="{{$cliente->rs_nome}}" >
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label id="cpf_cnpj">* CPF</label>
-            <input type="text" name="cpf_cnpj" class="form-control" required="">
+            <label id="cpf_cnpj">CPF</label>
+            <input type="text" name="cpf_cnpj" class="form-control" required="" value="{{$cliente->cpf_cnpj}}">
           </div>
           <div id="rg" class="form-group col-md-6">
             <label >RG</label>
-            <input  type="text" name="rg" class="form-control" >
+            <input  type="text" name="rg" class="form-control" value="{{$cliente->rg}}" >
           </div>
           <div id="ins_e" class="form-group col-md-6 ">
             <label >Inscrição Estadual</label>
-            <input  type="text" name="ins_estadual" class="form-control" >
+            <input  type="text" name="ins_estadual" class="form-control" value="{{$cliente->ins_estadual}}" >
           </div>
           <div id="ins_m" class="form-group col-md-6 ">
             <label >Inscrição Municipal</label>
-            <input  type="text" name="ins_municipal" class="form-control" >
+            <input  type="text" name="ins_municipal" class="form-control" value="{{$cliente->ins_municipal}}">
           </div>
 
           <div class="form-group col-md-6">
             <label >E-mail</label>
-            <input type="text" name="email" class="form-control" >
+            <input type="text" name="email" class="form-control"value="{{$cliente->email}}" >
           </div>
           <div  class="form-group col-md-6">
             <label >Telefone 1</label>
-            <input id="fone1" type="text" name="fone1" data-id="#fone1"  class="form-control" >
+            <input id="fone1" type="text" name="fone1" data-id="#fone1"  class="form-control" value="{{$cliente->fone1}}">
           </div>
           <div id="ins_e" class="form-group col-md-6 ">
             <label >Telefone 2</label>
-            <input id="fone2" type="text" name="fone2" data-id="#fone2" class="form-control" >
+            <input id="fone2" type="text" name="fone2" data-id="#fone2" class="form-control" value="{{$cliente->fone2}}">
           </div>
           
         </div>
@@ -181,52 +68,45 @@
 
           <div class="form-group col-md-3">
             <label>Tipo</label>
-            <select id="tipo_end" class="form-control" name="tipo_end">
-              <option value="">Selecione</option>
+            <select id="tipo_end" class="form-control" name="tipo_end" required="">
+              <option value="{{$cliente->tipo_end}}">{{$cliente->tipo_end}}</option>
               <option value="residencial">Residencial</option>
               <option value="comercial">Comercial</option>
             </select>
           </div>
           <div class="form-group col-md-3">
             <label>CEP</label>
-            <input id="cep" type="text" name="cep"  class="form-control" >
+            <input id="cep" type="text" name="cep"  class="form-control" value="{{$cliente->cep}}" >
           </div>
           <div class="form-group col-md-4">
             <label>Rua</label>
-            <input id="rua" type="text" name="rua"  class="form-control" >
+            <input id="rua" type="text" name="rua"  class="form-control" value="{{$cliente->rua}}">
           </div>
           <div class="form-group col-md-2">
             <label>N°</label>
-            <input id="numero" type="text" name="numero"  class="form-control" >
+            <input id="numero" type="text" name="numero"  class="form-control" value="{{$cliente->numero}}" >
           </div>
           <div class="form-group col-md-3">
             <label>Bairro</label>
-            <input id="bairro" type="text" name="bairro"  class="form-control" >
+            <input id="bairro" type="text" name="bairro"  class="form-control" value="{{$cliente->bairro}}">
           </div>
           <div class="form-group col-md-4">
             <label>Cidade</label>
-            <input id="cidade" type="text" name="cidade"  class="form-control" >
+            <input id="cidade" type="text" name="cidade"  class="form-control" value="{{$cliente->cidade}}">
           </div>
           <div class="form-group col-md-2">
             <label>UF</label>
-            <input id="uf" type="text" name="uf"  class="form-control" >
+            <input id="uf" type="text" name="uf"  class="form-control" value="{{$cliente->uf}}" >
           </div>
         </div>
         <h5>Informações/observações</h5> <hr>
         <div id="" class="form-group ">
-          <textarea id="info" class="form-control" name="info"></textarea>
+          <textarea id="info" class="form-control" name="info">{{$cliente->info}}</textarea>
         </div>
         <button class="btn btn-primary btn-block" >Salvar</button>
       </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
 
-    </div>
-  </div>
-</div>
-</div>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.css" rel="stylesheet">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.js"></script>
 <script>
   $('#info').summernote({
@@ -250,7 +130,7 @@
       if( valor.length == 1){  $(this).val('(' + valor) }
         if( valor.length == 3){  $(this).val( valor + ') ') }
          if( valor.length == 10){  $(this).val( valor + '-') }
-           
+
 
        });
 
@@ -270,7 +150,7 @@
       } else {
        $("#nf_apelido").text("* Apelido");
        $("#rs_nome").text("* Nome");
-       $("#cpf_cnpj").text("* CPF");
+       $("#cpf_cnpj").text("CPF");
        $("#rg").show();
        $("#ins_e").hide();
        $("#ins_m").hide();
@@ -292,7 +172,7 @@
                 $("#cidade").val("");
                 $("#uf").val("");
               }
-              
+
             //Quando o campo cep perde o foco.
             $("#cep").blur(function() {
 
@@ -345,4 +225,4 @@
           });
 
         </script>
-        @stop
+

@@ -35,6 +35,7 @@ class CreateClientesTable extends Migration
             $table->string('uf')->nullable();
             $table->longtext('info')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -20,8 +20,11 @@
 
 </head>
 
-<body class="bg-secondary">
+<body class="bg-secondary mb-5">
     <header>
+        <div class="text-right bg-secondary text-white p-2"> 
+   <b>Usuário: </b>Herbet Junior | <a href="#">Sair</a> 
+  </div>
         <nav class="navbar navbar-expand-md bg-dark navbar-dark ">
           <!-- Brand -->
           <a class="navbar-brand" href="{{route('index')}}">Gestão</a>
@@ -38,20 +41,34 @@
                 <a class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cadastros</a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" href="{{route('cadastros.clientes')}}">Clientes</a>
-                    <a class="dropdown-item" href="#">Serviços</a>
+                    <a class="dropdown-item" href="{{route('cadastros.servicos')}}">Serviços</a>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Atendimento</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Atendimento</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="{{route('cadastros.clientes', 'pre-cadastro')}}">Pré-Cadastro</a>
+                    <a class="dropdown-item" href="{{route('orcamento.orcamentos')}}">Orçamentos</a>
+                    <a class="dropdown-item" href="#">Projetos</a>
+                    <a class="dropdown-item" href="#">Anotações</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Midias Socias</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#">Planejamento</a>
+                    <a class="dropdown-item" href="#">Publicações</a>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Relatórios</a>
             </li> 
+             <li class="nav-item">
+                <a class="nav-link" href="#">Configurações</a>
+            </li> 
         </ul>
     </div> 
-    <span class="navbar-text " >
-   <b>Usuário: </b>Herbet Junior   
-  </span>
+   
 </nav>
 </header>
 
@@ -59,6 +76,8 @@
 @yield('conteudo')
 
 
-
+<footer class="text-center bg-dark text-white mt-5 fixed-bottom">
+    <p>Atena Agência - Solucões Criativas {{date('Y')}}</p>
+</footer>
 </body>
 </html>
