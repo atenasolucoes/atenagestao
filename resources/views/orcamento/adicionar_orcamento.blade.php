@@ -42,23 +42,23 @@
       </div>
       <div class="form-group col-md-3">
         <label>Previsão de Entrega</label>
-        <input class="form-control" type="date" name="">
+        <input class="form-control" type="date" name="previsao_entrega">
       </div>
       <div class="form-group col-md-3">
         <label>Responsavel</label>
-        <input class="form-control" type="text" name="">
+        <input class="form-control" type="text" name="responsavel">
       </div>
       <div class="form-group col-md-3">
         <label>Aos cuidados de </label>
-        <input class="form-control" type="text" name="">
+        <input class="form-control" type="text" name="aos_cuidados">
       </div>
       <div class="form-group col-md-3">
         <label>Validade </label>
-        <input class="form-control" type="text" name="" >
+        <input class="form-control" type="text" name="validade" >
       </div>
       <div class="form-group col-md-12">
         <label>Introdução </label>
-        <textarea class="form-control" type="text" name="" id="info" >            </textarea>
+        <textarea class="form-control" type="text" name="introducao" id="info" >            </textarea>
         <small>Esse texto irá  aparecer no início  da proposta para o cliente, caso não queira inserir basta deixar em branco</small>
       </div>
       <h6>Serviços</h6>

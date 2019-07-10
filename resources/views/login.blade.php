@@ -23,13 +23,14 @@
 <body class="bg-secondary" style="padding: 10%">
    
 <div class="text-white" style="background-color: rgba(0,0,0,0.4);">
-    <form style="padding: 10%;" class="text-center" method="" action="{{route('index')}}">
+    <form style="padding: 10%;" class="text-center" method="post" action="{{route('login')}}">
+        {{@csrf_field()}}
         <h1>ATENA GESTÃO</h1>
         <div class="form-group">
-            <input type="text" name="" class="form-control text-center" placeholder="Informe Usuário">
+            <input type="text" name="email" class="form-control text-center" placeholder="Informe Usuário">
         </div>
         <div class="form-group">
-            <input type="password" name="" class="form-control text-center" placeholder="Informe Senha">
+            <input type="password" name="senha" class="form-control text-center" placeholder="Informe Senha">
         </div>
         <button class="btn btn-block btn-dark"> ENTRAR</button>
     </form>

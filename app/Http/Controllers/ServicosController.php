@@ -4,6 +4,8 @@ namespace atenagestao\Http\Controllers;
 
 use Illuminate\Http\Request;
 use atenagestao\Servicos;
+use atenagestao\User;
+use Illuminate\Support\Facades\Auth;
 
 class ServicosController extends Controller
 {
@@ -19,7 +21,7 @@ class ServicosController extends Controller
 
     public function cadastrar(Request $request)
     {
-    	Servicos::create($request->all());
+       $servico = Servicos::create($request->all());
     	return redirect(route('cadastros.servicos'));
     }
    

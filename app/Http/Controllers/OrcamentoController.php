@@ -26,6 +26,8 @@ class OrcamentoController extends Controller
      public function novo(Request $request)
     {
         $orca = Orcamento::create($request->all());
+        $orca ->fill(['situacao' => 'aberto']);
+        $orca ->save();
    
         return redirect(route('orcamento.orcamentos'));
     }

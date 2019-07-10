@@ -23,7 +23,7 @@
 <body class="bg-secondary mb-5">
     <header>
         <div class="text-right bg-secondary text-white p-2"> 
-   <b>Usuário: </b>Herbet Junior | <a href="#">Sair</a> 
+   <b>Usuário: </b>{{Auth::user()->nome}} | <a href="{{route('sair')}}">Sair</a> 
   </div>
         <nav class="navbar navbar-expand-md bg-dark navbar-dark ">
           <!-- Brand -->
